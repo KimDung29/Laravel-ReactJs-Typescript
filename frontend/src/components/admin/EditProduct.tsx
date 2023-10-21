@@ -18,7 +18,7 @@ const initValue = {
 	image  :'image',
 	price: '',
 	color: '',
-	size: '',
+	size: 'S',
 	quantity: '',
 }
 
@@ -31,8 +31,8 @@ export default function EditProduct() {
 	const [notification, setNotification ] = useState('');
 
 	const [value, setValue] = useState(initValue as ProductType);
-
-
+	const [sizeProducts, setSizeProducts ] = useState([] as string[] )
+	
 	useEffect(() => {
 		axiosClient.get(`/admin-product/${id}`)
 		.then((response) => {
@@ -41,39 +41,61 @@ export default function EditProduct() {
 		.catch((e) => console.log(e.response))
 	}, [])	
 
+	useEffect(() => {
+		setValue({ ...value, size: sizeProducts.join(',') });
+	}, [sizeProducts]);
+		
+	const sizeLable = ['S', 'M', 'L']
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue( { ...value, [e.target.name]: e.target.value } );
-  }
+	// Input change
+	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setValue( { ...value, [e.target.name]: e.target.value } );
+	}
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
-    if (e.target.files ) {
-      setValue({ ...value, image: e.target.files[0] ? e.target.files[0] : 'image' });
-    }
-  }
-  
-  
-  const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-	e.preventDefault();
-	console.log('value update', value)
+	// Long description handling
+	const onTexareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+	setValue( { ...value, [e.target.name]: e.target.value } );
+	}
+
+	// Upload image handling
+	const onFileChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
+	if (e.target.files ) {
+		setValue({ ...value, image: e.target.files[0] ? e.target.files[0] : 'image' });
+	}
+	}
+
+	// Check box handling
+	const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.checked) {
+			setSizeProducts((prevSelectedSizes) => [...prevSelectedSizes, e.target.value]);
+		} else {
+			// If the checkbox is unchecked, remove the value from the sizeProducts array
+			setSizeProducts((prevSizes) => prevSizes.filter((size) => size !== e.target.value));
+		}
+	};
+
 	
+	const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log('value update', value)
+		
 
-	axiosClient.put(`/admin-product/update/${id}`, value)
-	.then(res => {
-		console.log('update res: ', res)
+		axiosClient.put(`/admin-product/update/${id}`, value)
+		.then(res => {
+			console.log('update res: ', res)
 
-		if(res.status === 422) {
-			// dispatch(setErrors(res.data.errors));
-		}
+			if(res.status === 422) {
+				// dispatch(setErrors(res.data.errors));
+			}
 
-		if(res.status === 201) {
-			setNotification('Update successfully.')
-		}
-	})
-	.catch(err => {
-		console.log('err update: ', err)
-	})
-  }
+			if(res.status === 201) {
+				setNotification('Update successfully.')
+			}
+		})
+		.catch(err => {
+			console.log('err update: ', err)
+		})
+	}
   
   return (
 	<>
@@ -81,70 +103,78 @@ export default function EditProduct() {
 			<div className="form-product">
 				<form onSubmit={onSubmit}>
 					<FormTitle {...{ 
-					title:"Edit product " , 
+					title:"Add a product " , 
 					notification: notification 
 					}}/>
 				
 					<div>
-						<label htmlFor='name'>Name</label>
-						<input onChange={onInputChange} name='name' value={value.name}  type='text' />
+						<label htmlFor='name'>Product Name</label>
+						<input onChange={onInputChange} name='name' value={value.name} type='text' />
 						<p className="message-error"> { errors.name }</p>
 					</div>
 
 					<div>
 						<label htmlFor='short_desc'>Short description</label>
-						<input onChange={onInputChange} name='short_desc' value={value.short_desc}  type='text'  placeholder='Short description'/>
+						<input onChange={onInputChange} name='short_desc' type='text' value={value.short_desc} placeholder='Short description'/>
 						<p className="message-error"> { errors.short_desc }</p>
 					</div>
-
-					<InputArea {...{ 
-					label:'Long Description', 
-					name:'long_desc', 
-					value: value.long_desc,
-					placeholder:'Describle your product', 
-					onChange:onInputChange, 
-					}} />
+					<div>
+						<label htmlFor="long_desc">Long Description</label>
+						<textarea name="long_desc" 
+						onChange={onTexareaChange} 
+						cols={30} rows={10}  className="textarea" 
+						value={value.long_desc}
+						placeholder='Describle your product'></textarea>
+					</div>
 
 					<div>
-						<label htmlFor='image'>Image</label>
+						<label htmlFor='image'>Product Image</label>
 						<input onChange={onFileChange} name='image'  type='file'/>
-						{/* <p className="message-error"> { nameError }</p>
-						<p className="message-error"> { original !== null ? original : '' }</p> */}
+						<p className="message-error"> { errors.image }</p>
 					</div>
-	
+
 					<div>
 						<label htmlFor='price'>Price</label>
-						<input onChange={onInputChange} name='price' value={value.price}  type='number' placeholder=' The price of the product'/>
-						{/* <p className="message-error"> { nameError }</p>
-						<p className="message-error"> { original !== null ? original : '' }</p> */}
+						<input onChange={onInputChange} name='price' value={value.price} type='number' placeholder=' The price of the product'/>
+						<p className="message-error"> { errors.price }</p>
 					</div>
 
 					<div>
 						<label htmlFor='color'>Color</label>
-						<input onChange={onInputChange} name='color' value={value.color}  type='text' placeholder="Text your product's color, sperate by comma"/>
-						{/* <p className="message-error"> { nameError }</p>
-						<p className="message-error"> { original !== null ? original : '' }</p> */}
+						<input onChange={onInputChange} name='color' type='text' value={value.color} placeholder="Text your product's color, sperate by comma"/>
+						<p className="message-error"> { errors.color }</p>
 					</div>
 
-					<div>
-						<label htmlFor='size'>Size</label>
-						<input onChange={onInputChange} name='size' value={value.size}  type='text' placeholder="Text your product's size, sperate by comma"/>
-						{/* <p className="message-error"> { nameError }</p>
-						<p className="message-error"> { original !== null ? original : '' }</p> */}
+					<div >
+						<p >Size</p>
+							<div  className="add-product-size-group"> 
+								{sizeLable.map((size, i) => (
+									<div key={i} className="add-product">
+										<input 
+										checked={value?.size && value.size.includes(size) ? true : false}
+										onChange={onCheckboxChange} 
+										name="size" value={size}  
+										type="checkbox"  
+										className="input-checkbox" 
+										/>
+										<label htmlFor="size" className="label-checkbox">{size}</label>
+									</div>
+								))}
+								<p className="message-error"> { errors.size }</p>
+							</div>
+
 					</div>
 
 					<div>
 						<label htmlFor='quantity'>Quantity</label>
-						<input onChange={onInputChange} name='quantity' value={value.quantity}  type='number' placeholder="Quantity"/>
-						{/* <p className="message-error"> { nameError }</p>
-						<p className="message-error"> { original !== null ? original : '' }</p> */}
+						<input onChange={onInputChange} name='quantity' value={value.quantity} type='number' placeholder="Quantity"/>
+						<p className="message-error"> { errors.quantity }</p>
 					</div>
 
 					<button className="btn btn-block" type="submit">Submit</button>
 				</form>
 			</div>
 		</div>
-		
 	</>
   )
 }

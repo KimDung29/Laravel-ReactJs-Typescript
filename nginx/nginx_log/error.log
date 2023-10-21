@@ -21,3 +21,15 @@
 2023/10/21 02:16:22 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
 2023/10/21 02:16:53 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
 2023/10/21 02:17:50 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:33:56 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:34:02 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:34:08 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:34:13 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:34:20 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:34:27 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:34:35 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:34:47 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:35:05 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:35:36 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:36:33 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11
+2023/10/21 13:37:38 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/conf.d/nginx.conf:11

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('short_desc');
             $table->longText('long_desc');
             $table->string('image');
-            $table->integer('price');
+            $table->string('price');
             $table->string('color');
             $table->string('size');
             $table->string('quantity');

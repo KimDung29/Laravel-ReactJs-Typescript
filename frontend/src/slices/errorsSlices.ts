@@ -1,56 +1,84 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface InitialMessageType {
-  nameError?: string[];
-	emailError?: string[];
-  avatarError?: string[];
-	passwordError?: string[];
+export interface ErrorType {
+  name?: string[];
+	email?: string[];
+  avatar?: string[];
+	password?: string[];
 	original?: string | null;
+
+	color?: string[];
+	long_desc?: string[];
+	short_desc?: string[];
+	price?: string[];
+  image?: string[];
+	quantity?: string[];
+	size?: string[];
+}
+
+
+const initialError:ErrorType = {
+  name: [],
+	email: [],
+  avatar: [],
+	password: [],
+	original: null,
+  
+  color: [],
+	long_desc: [],
+  short_desc: [],
+  image: [],
+	price: [],
+	quantity: [],
+	size: [],
+};
+
+interface InitialMessageType {
+  errors: ErrorType;
   notification?: string | null;
 }
 
-const initialState:InitialMessageType = {
-  nameError: [],
-	emailError: [],
-  avatarError: [],
-	passwordError: [],
-	original: null,
+const initialState: InitialMessageType = {
+  errors: initialError,
   notification: null,
-};
-
+}
 const errorsSlice = createSlice({
   name: 'errors',
   initialState,
   reducers: {
-    setNameError: (state, action) => {
-      state.nameError = action.payload;
+    setErrors: (state, action) => {
+      console.log('redux: ', action.payload)
+
+      state.errors = {
+        ...state.errors,
+        name: action.payload.name,
+        email: action.payload.email,
+        password: action.payload.password,
+        avatar: action.payload.avatar,
+        original: action.payload.message,
+
+        color: action.payload.color ,
+        long_desc: action.payload.long_desc ,
+        short_desc: action.payload.short_desc ,
+        price: action.payload.price ,
+        image: action.payload.image,
+        quantity: action.payload.quantity ,
+        size: action.payload.size ,
+
+      }
     },
-    setEmailError: (state, action) => {
-      state.emailError = action.payload;
-    },
-    setAvatarError: (state, action) => {
-      state.avatarError = action.payload;
-    },
-    setPasswordError: (state, action) => {
-      state.passwordError = action.payload;
-    },
-    setOriginal: (state, action) => {
-      state.original = action.payload;
-    },
+
     setNotification: (state, action) => {
+      console.log('notice: ', action.payload)
       state.notification = action.payload;
     },
   },
 });
 
 export const { 
-  setNameError,
-  setEmailError ,
-  setAvatarError,
-  setPasswordError,
-  setOriginal,
-  setNotification,
+  setErrors,
+  setNotification
   } = errorsSlice.actions;
 
 

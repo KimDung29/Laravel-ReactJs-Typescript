@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"
 import axiosClient from "../../axios-client"
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import {  setNotification } from "../../slices/errorsSlices";
 import { headers } from "../../services/productTitle";
 import Table from "../table/Table";
+import { RootState } from "../../store";
+import { setNotification } from "../../slices/errorsSlices";
 
 export interface ProductType {
-  user_id? : number, 
+  user_id? : number | undefined, 
   id?: number,
   name?:string;
   short_desc?:string;
   long_desc?:string;
   image? : File | string,
-  price?:number;
+  price?:string;
   color?:string;
   size?:string;
   quantity?:string;
@@ -28,6 +28,7 @@ export default function Produts() {
 
 
   const [products, setProducts ] = useState([] as ProductType[])
+
   useEffect(() => {
 		axiosClient.get(`/admin-products`)
 		.then((response) => {

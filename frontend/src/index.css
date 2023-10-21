@@ -89,6 +89,7 @@ a:hover {
   color: white;
   width: 100%;
   margin-top: 1.2rem;
+  cursor: pointer;
 }
 
 .login-signup-form .form .message {
@@ -97,12 +98,13 @@ a:hover {
   font-size: 1rem;
   text-align: center;
 }
-.login-signup-form .form .message-error {
+.message-error {
   color: red;
   font-size: 0.8rem;
 }
 .login-signup-form  .role-lable {
   display: inline;
+  padding: 0 0.5rem;
 }
 .message-success {
   color: green;
@@ -128,6 +130,7 @@ a:hover {
   height: 100vh;
   padding: 1rem;
   position: fixed;
+  font-size: 1rem;
 }
 .admin-right-side {
   width: 85%;
@@ -138,10 +141,15 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 1rem ;
+  padding: 1rem;
   border-bottom: 1px solid #ccc;
+  position: fixed;
+  width: 85%;
+  background-color: white;
 }
-
+.admin-outlet {
+  padding: 3.5rem 0 1.8rem 0;
+}
 .admin-left-welcome {
 }
 .admin-left-avatar {
@@ -219,4 +227,18 @@ a:hover {
 .form-product .textarea {
   width: 100%;
   font-size: 0.8rem;
+}
+
+.add-product-size-group {
+  /* display: flex; */
+
+}
+.add-product .input-checkbox{
+  width: 6%;
+  display: inline-block;
+}
+.add-product .label-checkbox {
+  display: inline;
+  padding: 0;
+  margin: 0;
 }

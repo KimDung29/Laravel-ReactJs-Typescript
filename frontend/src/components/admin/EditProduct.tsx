@@ -5,26 +5,31 @@ import { ProductType } from "./Produts";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import FormTitle from "../form/FormTitle";
-import InputText from "../form/InputText";
 import InputArea from "../form/InputArea";
+
+
+const initValue = {
+	user_id: 0,
+	id: 0,
+	name: '',
+	short_desc: '',
+	long_desc: '',
+	image  :'image',
+	price: '',
+	color: '',
+	size: '',
+	quantity: '',
+}
 
 export default function EditProduct() {
 	const { id } = useParams();
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	// const navigate = useNavigate();
+	// const dispatch = useDispatch();
 
-	const {nameError,avatarError, original, notification} = useSelector((state: RootState) => state.errors)
+	const { errors,  notification} = useSelector((state: RootState) => state.errors)
 
-	const [value, setValue] = useState({
-		name: '',
-		short_desc: '',
-		long_desc: '',
-		image  :'image',
-		price: 0,
-		color: '',
-		size: '',
-		quantity: '',
-	} as ProductType)
+	const [value, setValue] = useState(initValue as ProductType);
+
 
 	useEffect(() => {
 		axiosClient.get(`/admin-product/${id}`)
@@ -40,15 +45,24 @@ export default function EditProduct() {
   }
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
-    console.log('file', e.target.files)
     if (e.target.files ) {
       setValue({ ...value, image: e.target.files[0] ? e.target.files[0] : 'image' });
     }
   }
-console.log('value', value)
-
+  
+  
   const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+	e.preventDefault();
+	console.log('value update', value)
+	
+
+	axiosClient.put(`/admin-product/update/${id}`, value)
+	.then(res => {
+		console.log('update res: ', res)
+	})
+	.catch(err => {
+		console.log('err update: ', err)
+	})
   }
   
   return (
@@ -64,15 +78,13 @@ console.log('value', value)
 					<div>
 						<label htmlFor='name'>Name</label>
 						<input onChange={onInputChange} name='name' value={value.name}  type='text' />
-						<p className="message-error"> { nameError }</p>
-						<p className="message-error"> { original !== null ? original : '' }</p>
+						<p className="message-error"> { errors.name }</p>
 					</div>
 
 					<div>
 						<label htmlFor='short_desc'>Short description</label>
 						<input onChange={onInputChange} name='short_desc' value={value.short_desc}  type='text'  placeholder='Short description'/>
-						{/* <p className="message-error"> { nameError }</p>
-						<p className="message-error"> { original !== null ? original : '' }</p> */}
+						<p className="message-error"> { errors.short_desc }</p>
 					</div>
 
 					<InputArea {...{ 
@@ -81,7 +93,6 @@ console.log('value', value)
 					value: value.long_desc,
 					placeholder:'Describle your product', 
 					onChange:onInputChange, 
-					error: nameError, 
 					}} />
 
 					<div>
@@ -114,10 +125,12 @@ console.log('value', value)
 
 					<div>
 						<label htmlFor='quantity'>Quantity</label>
-						<input onChange={onInputChange} name='quantity' value={value.quantity}  type='text' placeholder="Quantity"/>
+						<input onChange={onInputChange} name='quantity' value={value.quantity}  type='number' placeholder="Quantity"/>
 						{/* <p className="message-error"> { nameError }</p>
 						<p className="message-error"> { original !== null ? original : '' }</p> */}
 					</div>
+
+					<button className="btn btn-block" type="submit">Submit</button>
 				</form>
 			</div>
 		</div>

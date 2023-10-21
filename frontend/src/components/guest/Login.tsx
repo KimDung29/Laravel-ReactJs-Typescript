@@ -7,7 +7,7 @@ import { RootState } from "../../store";
 import FormTitle from "../form/FormTitle";
 import InputText from "../form/InputText";
 import FormButton from "../form/FormButton";
-import { setEmailError, setNotification, setOriginal, setPasswordError } from "../../slices/errorsSlices";
+import { setErrors, setNotification } from "../../slices/errorsSlices";
 
 
 export default function Login() {
@@ -18,7 +18,7 @@ export default function Login() {
   } );
 
   const dispatch = useDispatch();
-  const { emailError , passwordError, original, notification} = useSelector((state: RootState) => state.errors)
+  const { errors, notification } = useSelector((state: RootState) => state.errors)
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -33,15 +33,16 @@ export default function Login() {
         console.log('response: ', response)
 
         if(response.status === 422 && response.data.errors) {
-          dispatch(setEmailError(response.data.errors.email));
-          dispatch(setPasswordError(response.data.errors.password));
+          dispatch(setErrors(response.data.errors));        
         }
-    
+        
         if (response.status === 200 && response.data.original?.message) {
-          dispatch(setOriginal( response.data.original?.message ))
+          dispatch(setErrors( response.data.original ))
         } 
 
         if(response.status === 200 && response.data.user ) {
+          dispatch(setNotification( response.data.message ))
+
           localStorage.setItem('CURRENT_USER_ID', response.data.user.id)
 
           localStorage.setItem('ACCESS_TOKEN', response.data.token)
@@ -66,10 +67,7 @@ export default function Login() {
         }
       )
       .catch((err) => {
-        const response = err.response;
-        if (response && response.status === 422) {
-          dispatch(setNotification(response.data.message))
-        }
+        console.log('error: ', err)
       })
   }
 
@@ -89,8 +87,8 @@ export default function Login() {
             type={'email'} 
             placeholder={'Email Addres'}
             onChange={onInputChange}
-            error={emailError} 
-            original={ original}
+            error={errors.email} 
+            original={ errors.original}
          />
 
           <InputText {...{ 
@@ -99,7 +97,7 @@ export default function Login() {
             type:'password', 
             placeholder:'Password', 
             onChange:onInputChange, 
-            error: passwordError 
+            error: errors.password 
           }} />
 
           <FormButton {...{ 

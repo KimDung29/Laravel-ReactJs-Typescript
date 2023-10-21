@@ -1,13 +1,13 @@
 import { useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import axiosClient from "../../axios-client";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
 import InputText from "../form/InputText";
 import InputCheckbox from "../form/InputCheckbox";
 import FormButton from "../form/FormButton";
-import { setAvatarError, setEmailError, setNameError, setNotification, setPasswordError } from "../../slices/errorsSlices";
 import FormTitle from "../form/FormTitle";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { setErrors, setNotification } from "../../slices/errorsSlices";
 
 export interface InitialValueType {
   name?: string,
@@ -31,7 +31,7 @@ export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [values, setValues] = useState(initialValue as InitialValueType)
-  const {nameError, emailError , passwordError,avatarError, original, notification} = useSelector((state: RootState) => state.errors)
+  const { errors, notification } = useSelector((state: RootState) => state.errors)
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues( { ...values, [e.target.name]: e.target.value } );
@@ -56,11 +56,7 @@ export default function Register() {
         console.log('response: ', response)
 
         if(response.status === 422) {
-          const errors = response.data.errors;
-          dispatch(setNameError(errors.name))
-          dispatch(setEmailError(errors.email))
-          dispatch(setAvatarError(errors.avatar))
-          dispatch(setPasswordError(errors.password))
+          dispatch(setErrors(response.data.errors))
         }
         if(response.status === 201) {
           dispatch(setNotification(response.data.message))
@@ -90,8 +86,7 @@ export default function Register() {
           type:'text', 
           placeholder:'Full Name', 
           onChange:onInputChange, 
-          error: nameError, 
-          original:  original
+          error: errors.name, 
         }} />
 
         <InputText {...{ 
@@ -100,8 +95,8 @@ export default function Register() {
           type:'email', 
           placeholder:'Email Address', 
           onChange:onInputChange, 
-          error: emailError, 
-          original: original 
+          error: errors.email, 
+          original: errors.original
         }} />
       
         <InputText {...{ 
@@ -110,7 +105,7 @@ export default function Register() {
           type:'file', 
           placeholder:'Upload your avatar', 
           onChange:onFileChange, 
-          error: avatarError 
+          error: errors.avatar 
         }} />
         
         <InputText {...{ 
@@ -119,7 +114,7 @@ export default function Register() {
           type:'password', 
           placeholder:'Password', 
           onChange:onInputChange, 
-          error: passwordError 
+          error: errors.password
         }} />
 
         <InputText {...{ 

@@ -34,10 +34,7 @@ class RegisterRequest extends FormRequest
                     ->numbers()
             ],
             'role'=> '',
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            // 'avatar'=> '',
-
-            
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',            
         ];
     }
 }

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import FormTitle from "../form/FormTitle";
 import InputArea from "../form/InputArea";
+import { setErrors } from "../../slices/errorsSlices";
 
 
 const initValue = {
@@ -23,10 +24,11 @@ const initValue = {
 
 export default function EditProduct() {
 	const { id } = useParams();
-	// const navigate = useNavigate();
-	// const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-	const { errors,  notification} = useSelector((state: RootState) => state.errors)
+	const { errors } = useSelector((state: RootState) => state.errors)
+	const [notification, setNotification ] = useState('');
 
 	const [value, setValue] = useState(initValue as ProductType);
 
@@ -59,6 +61,14 @@ export default function EditProduct() {
 	axiosClient.put(`/admin-product/update/${id}`, value)
 	.then(res => {
 		console.log('update res: ', res)
+
+		if(res.status === 422) {
+			// dispatch(setErrors(res.data.errors));
+		}
+
+		if(res.status === 201) {
+			setNotification('Update successfully.')
+		}
 	})
 	.catch(err => {
 		console.log('err update: ', err)

@@ -1,0 +1,98 @@
+version: "3.7"
+services:
+  backend:
+    build:
+      args:
+        user: kim
+        uid: 1000
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-ecommerce-project6
+    restart: unless-stopped
+    environment:
+      MAIL_HOST: ${MAIL_HOST}
+    working_dir: /var/www/
+    volumes:
+      - ./backend:/var/www
+    depends_on:
+      - db
+      - mailhog
+    networks:
+      - ecommerce-project6
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1026:1025"
+      - "8026:8025"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend-ecommerce-project6
+    restart: unless-stopped
+    working_dir: /var/www/frontend
+    ports:
+      - "3006:3000"
+    volumes:
+      - ./frontend:/var/www/frontend
+    depends_on: 
+      - backend 
+    networks:
+      - ecommerce-project6
+      
+  db:
+    image: mysql:8.0
+    container_name: db-ecommerce-project6
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql
+
+    networks:
+      - ecommerce-project6
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-ecommerce-project6
+    restart: unless-stopped
+    ports:
+      - 8086:80
+    environment:
+      PMA_HOST: ${DB_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_PHPMYADMIN}
+    networks:
+      - ecommerce-project6
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: nginx-ecommerce-project6
+    restart: unless-stopped
+    ports:
+      - 8006:80
+    volumes:
+      - ./backend:/var/www
+      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/nginx_log:/var/log/nginx
+    networks:
+      - ecommerce-project6
+
+networks:
+  ecommerce-project6:
+    driver: bridge
+
+
+
+

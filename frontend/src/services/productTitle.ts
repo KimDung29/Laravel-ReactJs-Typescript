@@ -17,3 +17,5 @@ export const headers: HeaderType[] = [
 export function getHeaders() {
 	return headers.filter(h => h);
 }
+
+export const sizeLable = ['S', 'M', 'L']

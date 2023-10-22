@@ -4,9 +4,8 @@ import axiosClient from "../../axios-client";
 import { ProductType } from "./Produts";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import FormTitle from "../form/FormTitle";
-import InputArea from "../form/InputArea";
 import { setErrors } from "../../slices/errorsSlices";
+import { sizeLable } from "../../services/productTitle";
 
 
 const initValue = {
@@ -45,7 +44,6 @@ export default function EditProduct() {
 		setValue({ ...value, size: sizeProducts.join(',') });
 	}, [sizeProducts]);
 		
-	const sizeLable = ['S', 'M', 'L']
 
 	// Input change
 	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,10 +100,8 @@ export default function EditProduct() {
 		<div className="login-signup-form animated fadeInDown">
 			<div className="form-product">
 				<form onSubmit={onSubmit}>
-					<FormTitle {...{ 
-					title:"Add a product " , 
-					notification: notification 
-					}}/>
+					<h1 className="title">Add a product </h1>
+					<p className="message-success">{notification}</p>
 				
 					<div>
 						<label htmlFor='name'>Product Name</label>

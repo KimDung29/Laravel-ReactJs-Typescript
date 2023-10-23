@@ -43,14 +43,14 @@ export default function Login() {
         if(response.status === 200 && response.data.user ) {
           dispatch(setNotification( response.data.message ))
 
-          localStorage.setItem('CURRENT_USER_ID', response.data.user.id)
+          sessionStorage.setItem('CURRENT_USER_ID', response.data.user.id)
 
-          localStorage.setItem('ACCESS_TOKEN', response.data.token)
+          sessionStorage.setItem('ACCESS_TOKEN', response.data.token)
           
           if(response.data.user.role === 'admin') {
-            localStorage.setItem('ROLE', 'admin')
+            sessionStorage.setItem('ROLE', 'admin')
           }else {
-            localStorage.setItem('ROLE', 'client')
+            sessionStorage.setItem('ROLE', 'client')
           }
 
           setTimeout(() => {

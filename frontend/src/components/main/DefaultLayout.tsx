@@ -2,12 +2,12 @@ import { Outlet } from "react-router-dom";
 
 export default function DefaultLayout() {
 
-  const token = localStorage.getItem('ACCESS_TOKEN');
-  const  role = localStorage.getItem('ROLE');
+  const token = sessionStorage.getItem('ACCESS_TOKEN');
+  const  role = sessionStorage.getItem('ROLE');
 
   const onLogout = () => {
-    localStorage.removeItem('ACCESS_TOKEN');
-    localStorage.removeItem('ROLE');
+    sessionStorage.removeItem('ACCESS_TOKEN');
+    sessionStorage.removeItem('ROLE');
   }
 
   return (

@@ -29,8 +29,8 @@ interface UserState {
 
 const initialState: UserState = {
   userId: 0,
-  token: localStorage.getItem('ACCESS_TOKEN') || null,
-  role: localStorage.getItem('ROLE') || null,
+  token: sessionStorage.getItem('ACCESS_TOKEN') || null,
+  role: sessionStorage.getItem('ROLE') || null,
 };
 
 const userSlice = createSlice({
@@ -40,30 +40,30 @@ const userSlice = createSlice({
     setCurrentUser: (state, action) => {
 		state.userId = action.payload;
 		// if(action.payload) {
-		// 	localStorage.setItem('CURRENT_USER_ID', action.payload);
+		// 	sessionStorage.setItem('CURRENT_USER_ID', action.payload);
 		// } else {
-		// 	localStorage.removeItem('CURRENT_USER_ID');
+		// 	sessionStorage.removeItem('CURRENT_USER_ID');
 		// }
     },
 
     setToken: (state, action: PayloadAction<string | null>) => {
 		state.token = action.payload;
 		if (state.token) {
-			localStorage.setItem('ACCESS_TOKEN', state.token);
+			sessionStorage.setItem('ACCESS_TOKEN', state.token);
 		} 
 		console.log('token action: ', state.token)
 		if(!state.token) {
-			localStorage.removeItem('ACCESS_TOKEN');
+			sessionStorage.removeItem('ACCESS_TOKEN');
 		}
     },
 
 	setIsSeller: (state, action: PayloadAction<string | null>) => {
 		state.role = action.payload;
-		//  In router.tsx I don't use function component so I need to set  into localStorage
+		//  In router.tsx I don't use function component so I need to set  into sessionStorage
 		if(state.role) {
-			localStorage.setItem('ROLE', state.role)
+			sessionStorage.setItem('ROLE', state.role)
 		}else {
-			localStorage.removeItem('ROLE')
+			sessionStorage.removeItem('ROLE')
 		}
 	},
   },

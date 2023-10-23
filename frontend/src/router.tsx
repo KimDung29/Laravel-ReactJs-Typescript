@@ -23,7 +23,7 @@ interface RouteConfig {
 	children?: RouteConfig[];
 }
 
-const  role = localStorage.getItem('ROLE');
+const  role = sessionStorage.getItem('ROLE');
 
 const defaultLayout:RouteConfig = {
 	path: '/',

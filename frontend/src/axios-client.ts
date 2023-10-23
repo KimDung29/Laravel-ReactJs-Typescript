@@ -5,8 +5,8 @@ const axiosClient = axios.create({
 })
 
 axiosClient.interceptors.request.use((config) => {
-	const token = localStorage.getItem('ACCESS_TOKEN');
-	const userId = localStorage.getItem('CURRENT_USER_ID')
+	const token = sessionStorage.getItem('ACCESS_TOKEN');
+	const userId = sessionStorage.getItem('CURRENT_USER_ID')
 
 	config.headers.Authorization = `Bearer ${token}`;
 	config.headers['X-Id'] = userId;
@@ -21,7 +21,7 @@ axiosClient.interceptors.response.use((response) => {
 }, (error) => {
 
 	if(error.response.status === 401){
-		localStorage.removeItem('ACCESS_TOKEN');
+		sessionStorage.removeItem('ACCESS_TOKEN');
 	}
 	else if(error.response.status === 404) {
 		return 'Not Found';

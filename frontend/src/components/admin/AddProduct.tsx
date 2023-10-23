@@ -7,7 +7,7 @@ import { RootState } from "../../store";
 import FormTitle from "../form/FormTitle";
 import { setErrors } from "../../slices/errorsSlices";
 
-const userId = localStorage.getItem('CURRENT_USER_ID');
+const userId = sessionStorage.getItem('CURRENT_USER_ID');
 
 const initValue = {
 	user_id: Number(userId),

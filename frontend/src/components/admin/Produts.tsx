@@ -7,8 +7,8 @@ import { RootState } from "../../store";
 import { setNotification } from "../../slices/errorsSlices";
 
 export interface ProductType {
-  user_id? : number | undefined, 
-  id?: number,
+  user_id : number , 
+  id: number,
   name?:string;
   short_desc?:string;
   long_desc?:string;

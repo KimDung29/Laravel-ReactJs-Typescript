@@ -1,7 +1,7 @@
 
 interface DeleleType {
 	onDelete: (id: number) => void,
-	id: number
+	id: number 
 }
 
 export default function Delete({ onDelete, id } : DeleleType) {

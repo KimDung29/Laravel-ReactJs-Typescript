@@ -19,3 +19,12 @@ export function getHeaders() {
 }
 
 export const sizeLable = ['S', 'M', 'L']
+
+
+export const productTable = [
+	{key: 'no', name: 'STT'},
+	{key: 'name', name: 'Name'},
+	{key: 'price', name: 'Price'},
+	{key: 'color', name: 'Color'},
+	{key: 'size', name: 'Size'},
+]

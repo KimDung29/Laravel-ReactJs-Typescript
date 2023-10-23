@@ -1,30 +1,49 @@
 
 import { useEffect, useState } from "react";
-import { Product } from "../admin/Produts";
 import axiosClient from "../../axios-client";
+import { productTable } from "../../services/product";
+import { ProductType } from "../admin/Produts";
 
 export default function Home() {
-  const [products, setProducts ] = useState([] as Product[]);
+  const [products, setProducts ] = useState([] as ProductType[]);
 
 	useEffect(() => {
 		axiosClient.get(`/products`)
 		.then((response) => {
-
-      console.log('client product: ', response)
-
-			setProducts(response.data.product)
+			setProducts(response.data.products)
 		})
 		.catch((e) => console.log(e.response))
 	}, [])	
-  console.log(products)
 
   return (
     <>
-      <h1>Home content</h1>
-      {/* {users.length === 0 && <p>There are no users.</p>}
-      {users.length > 0 && users.map((user, i) => (
-        user. === 1 ? <p key={i}>Seller</p> : <p key={i}>Buyer</p>
-      ))} */}
+      <br/>
+      <h3>Product list</h3>
+      <br/>
+      {products.length === 0 && <p>There are no products .</p>}
+        {products && products.length > 0 && (
+          <table className="product-table">
+          <thead>
+            <tr >
+            {productTable.map((head, i) => (
+              <th key={i}>{ head.name}</th>
+            ))}
+            </tr>
+          </thead>
+          <tbody>
+          {products.map((item, i) => (
+            <tr key={i}>
+              <td>{i++ + 1}</td>
+              <td>{item.name}</td>
+              <td>${item.price}</td>
+              <td>{item.color}</td>
+              <td>{item.size}</td>
+            </tr>
+          ))}
+        </tbody>
+        </table>
+         
+        )}
     </>
   )
 }

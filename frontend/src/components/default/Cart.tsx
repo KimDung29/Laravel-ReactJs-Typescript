@@ -1,6 +1,6 @@
 
 export default function Cart() {
-  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+  const accessToken = sessionStorage.getItem('ACCESS_TOKEN');
 
   return (
 	<>

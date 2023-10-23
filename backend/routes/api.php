@@ -2,9 +2,8 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [ApiController::class, 'register']);
 
 Route::post('/login', [ApiController::class, 'login']);
-
+// Guest routes
+Route::get('/products', [GuestController::class, 'getProducts']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // For both of admin and client
@@ -41,9 +41,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Delete product
     Route::delete('/admin-product/{id}', [ProductController::class,'destroy'])->middleware('isAdmin');
 
+    // If the client loggined
+    Route::get('/cart', [ClientController::class,'index'])->middleware('isClient');
 
-    // Client routes
-    // Route::get('/products', [ClientController::class, 'getProducts'])->middleware('isClient');
 });
         
 

@@ -16,7 +16,7 @@ interface User {
 export default function AdminLayout() {
 	const [ user, setUser ] = useState( {} as User );
 
-	const userId = localStorage.getItem('CURRENT_USER_ID');
+	const userId = sessionStorage.getItem('CURRENT_USER_ID');
 
 	useEffect(() => {
 		axiosClient.get(`/user/${userId}`)
@@ -28,9 +28,9 @@ export default function AdminLayout() {
 
 
 	const onLogout = () => {
-		localStorage.removeItem('ACCESS_TOKEN');
-		localStorage.removeItem('ROLE');
-		localStorage.removeItem('CURRENT_USER_ID');
+		sessionStorage.removeItem('ACCESS_TOKEN');
+		sessionStorage.removeItem('ROLE');
+		sessionStorage.removeItem('CURRENT_USER_ID');
 	}
 
 	return (

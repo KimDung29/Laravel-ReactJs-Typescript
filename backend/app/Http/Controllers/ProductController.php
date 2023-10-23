@@ -67,16 +67,17 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // FIXME: can not get value from $request of Request or UpdateProductRequest
     public function update(UpdateProductRequest $request , Product $product)
     {
 
-        $data = $request->validated();
+        // $data = $request->validated();
         // $product = Product::find($id);
 
         // $product->update($data);
 
         // return new ProductResource($product);
-        return response()->json('heelo');
+        return response()->json('update product');
     }
 
     /**

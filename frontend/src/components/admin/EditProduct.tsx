@@ -75,6 +75,7 @@ export default function EditProduct() {
 	
 	const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		// FIXME:  There is value but on the backend side it is not possible to get the value 
 		console.log('value update', value)
 		
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axiosClient from "../../axios-client"
 import { useDispatch, useSelector } from "react-redux";
-import { headers } from "../../services/productTitle";
+import { headers } from "../../services/product";
 import Table from "../table/Table";
 import { RootState } from "../../store";
 import { setNotification } from "../../slices/errorsSlices";

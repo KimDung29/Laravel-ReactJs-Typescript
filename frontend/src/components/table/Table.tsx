@@ -1,5 +1,5 @@
 // import { HeaderType } from "../../services/productTitle";
-import { HeaderType } from "../../services/productTitle";
+import { HeaderType } from "../../services/product";
 import { ProductType } from "../admin/Produts";
 import Body from "./Body";
 import Head from "./Head";

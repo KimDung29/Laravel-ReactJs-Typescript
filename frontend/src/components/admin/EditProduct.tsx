@@ -5,7 +5,7 @@ import { ProductType } from "./Produts";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setErrors } from "../../slices/errorsSlices";
-import { sizeLable } from "../../services/productTitle";
+import { sizeLable } from "../../services/product";
 
 
 const initValue = {
@@ -83,7 +83,7 @@ export default function EditProduct() {
 			console.log('update res: ', res)
 
 			if(res.status === 422) {
-				// dispatch(setErrors(res.data.errors));
+				dispatch(setErrors(res.data.errors));
 			}
 
 			if(res.status === 201) {
@@ -100,7 +100,7 @@ export default function EditProduct() {
 		<div className="login-signup-form animated fadeInDown">
 			<div className="form-product">
 				<form onSubmit={onSubmit}>
-					<h1 className="title">Add a product </h1>
+					<h1 className="title">Edit the product </h1>
 					<p className="message-success">{notification}</p>
 				
 					<div>

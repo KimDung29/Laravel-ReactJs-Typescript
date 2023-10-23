@@ -1,4 +1,4 @@
-import { HeaderType } from "../../services/productTitle";
+import { HeaderType } from "../../services/product";
 
 interface HeadProps {
 	headers: HeaderType[];
